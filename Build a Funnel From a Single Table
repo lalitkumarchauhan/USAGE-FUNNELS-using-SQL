@@ -1,0 +1,35 @@
+Mattresses and More users were asked to answer a five-question survey:
+
+“How likely are you to recommend Mattresses and More to a friend?”
+“Which Mattresses and More location do you shop at?”
+“How old are you?”
+“What is your gender?”
+“What is your annual household income?”
+
+We will be using a table called survey_responses with the following columns:
+question_text - the survey question
+user_id - the user identifier
+response - the user answer
+---------------------------------------------------------------------------------------
+Select all columns for the first 10 records from survey_responses.
+
+select * from survey_responses limit 10
+
+---------------------------------------------------------------------------------------
+
+Count the number of distinct user_id who answered each question_text.
+What is the number of responses for each question?
+
+SELECT question_text,
+	COUNT(DISTINCT user_id)
+FROM survey_responses
+GROUP BY 1;
+
+or 
+
+SELECT question_text,
+	COUNT(DISTINCT user_id)
+FROM survey_responses
+GROUP BY question_text;
+
+---------------------------------------------------------------------------------------------
