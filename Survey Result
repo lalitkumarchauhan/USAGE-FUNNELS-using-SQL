@@ -1,0 +1,26 @@
+We could use SQL to calculate the percent change between each question, but it’s just as easy to analyze these manually 
+with a calculator or in a spreadsheet program like Microsoft Excel or Google Sheets.
+
+Mattresses and More users were asked to answer a five-question survey:
+
+“How likely are you to recommend Mattresses and More to a friend?”
+“Which Mattresses and More location do you shop at?”
+“How old are you?”
+“What is your gender?”
+“What is your annual household income?”
+
+
+
+If we divide the number of people completing each step by the number of people completing the previous step:
+Question	Percent Completed this Question
+1	100%
+2	95%
+3	82%
+4	95%
+5	74%
+
+
+
+We see that Questions 2 and 4 have high completion rates, but Questions 3 and 5 have lower rates.
+
+This suggests that age and household income are more sensitive questions that people might be reluctant to answer!
