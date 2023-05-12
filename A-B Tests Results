@@ -1,0 +1,14 @@
+A/B Tests Results
+Incredible! After some quick math:
+Modal	Control Percent	Variant Percent
+1	100%	100%
+2	60%	79%
+3	80%	85%
+4	80%	80%
+5	85%	85%
+
+
+During Modal 2, variant has a 79% completion rate compared to control‘s 60%
+During Modal 3, variant has a 85% completion rate compared to control‘s 80%
+All other steps have the same level of completion
+This result tells us that the variant has greater completion!
