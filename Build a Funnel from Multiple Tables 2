@@ -16,3 +16,19 @@ purchase (aliased as p)
 Be sure to use this order to make sure that we get all of the rows.
 
 LIMIT your results to the first 50 so that it loads quickly.
+
+select * from browse b left join checkout c on b.user_id = c.user_id left join purchase p on c.user_id = p.user_id limit 50;
+
+
+2. But I don’t want all of these columns in the result!, Instead of selecting all columns using *, let’s select these four:
+
+DISTINCT b.browse_date
+b.user_id
+c.user_id IS NOT NULL AS 'is_checkout'
+p.user_id IS NOT NULL AS 'is_purchase'
+Edit your query so that you select these columns.
+
+
+select DISTINCT b.browse_date, b.user_id, c.user_id IS NOT NULL AS 'is_checkout',
+p.user_id IS NOT NULL AS 'is_purchase' from browse b left join checkout c 
+on b.user_id = c.user_id left join purchase p on c.user_id = p.user_id limit 50;
