@@ -1,0 +1,18 @@
+Build a Funnel from Multiple Tables 2
+
+Combine the information from the three tables (browse, checkout, purchase) into one table with the following schema:
+Each row will represent a single user:
+If the user has any entries in checkout, then is_checkout will be True.
+If the user has any entries in purchase, then is_purchase will be True.
+
+I cannot use an INNER JOIN to create this table, as information will be lost from any customer who does not have a row in the checkout or purchase table. Therefore, it is advisable 
+to use a series of LEFT JOIN commands.
+
+1. Start by selecting all rows (*) from the LEFT JOIN of:
+
+browse (aliased as b)
+checkout (aliased as c)
+purchase (aliased as p)
+Be sure to use this order to make sure that we get all of the rows.
+
+LIMIT your results to the first 50 so that it loads quickly.
