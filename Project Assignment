@@ -1,0 +1,128 @@
+Project Assignment: Usage Funnels
+Warby Parker(https://www.warbyparker.com/) is a transformative lifestyle brand with a lofty objective: to offer designer eyewear at a revolutionary 
+price while leading the way for socially conscious businesses. Founded in 2010 and named after two characters in an early Jack Kerouac 
+journal, Warby Parker believes in creative thinking, smart design, and doing good in the world — for every pair of eyeglasses and 
+sunglasses sold, a pair is distributed to someone in need.
+
+In this project, you will analyze different Warby Parker’s marketing funnels in order to calculate conversion rates. Here are the 
+funnels and the tables that you are given:
+
+Quiz Funnel:
+survey
+Home Try-On Funnel:
+quiz
+home_try_on
+purchase
+Let’s get started!
+
+Start the following project, which will guide you through the queries you need to write with a series of questions. 
+Make sure to save your queries and results — you’ll be using them to create a practice presentation. Then, using Google Slides, 
+Microsoft PowerPoint, or some other presentation software, create a mock presentation. Your presentation should answer all of the 
+questions in the project. Each answer should include a text explanation and data to support your claim. The queries used to find 
+that data should be included in a separate .sql file.
+
+Template: We recommend that you use the template linked here. This template contains examples of the types of slides you’ll want to use.
+Rubric: You can share your work with your peers on the Codecademy forums, who can give you feedback based on this rubric. 
+Make sure to check your work before sharing!
+
+Note: This project is a collaboration with Warby Parker’s Data Science team (thank you!) and uses fictional data.
+
+1. To help users find their perfect frame, Warby Parker has a Style Quiz (https://www.warbyparker.com/quiz) that has the following questions:
+
+“What are you looking for?”
+“What’s your fit?”
+“Which shapes do you like?”
+“Which colors do you like?”
+“When was your last eye exam?”
+The users’ responses are stored in a table called survey.
+
+Select all columns from the first 10 rows. What columns does the table have?
+select * from survey limit 10;
+
+
+2. Users will “give up” at different points in the survey. Let’s analyze how many users move from Question 1 to Question 2, etc. Create 
+a quiz funnel using the GROUP BY command. What is the number of responses for each question?
+
+select question, count(response) from survey group by question;
+
+3. Using a spreadsheet program like Excel or Google Sheets, calculate the percentage of users who answer each question:
+Which question(s) of the quiz have a lower completion rates?
+What do you think is the reason?
+
+select ((500-475)*100)/500;
+select ((475-380)*100)/475;
+select ((380-361)*100)/380;
+select ((361-270)*100)/361;
+Q2 (2. What's your fit? - 5%) and Q4 (4. Which colors do you like? - 5%) have lower completion rates
+more number of users are just for casual browsing hence the rate from Q1 to Q2 is less
+Since the Q3 is for the specifics wrt the choice the cx have hence asking another Question for the same 
+is some sort of redundancy for them, hence the rate from Q3 to Q4 is less.
+
+4. Warby Parker’s purchase funnel is: Take the Style Quiz → Home Try-On → Purchase the Perfect Pair of Glasses
+During the Home Try-On stage, we will be conducting an A/B Test:
+
+50% of the users will get 3 pairs to try on
+50% of the users will get 5 pairs to try on
+Let’s find out whether or not users who get more pairs to try on at home will be more likely to make a purchase.
+The data will be distributed across three tables:
+quiz
+home_try_on
+purchase
+
+Examine the first five rows of each table
+What are the column names?
+
+select * from quiz limit 5;
+select * from home_try_on limit 5;
+select * from purchase limit 5;
+
+5. We’d like to create a new table with the following layout:
+user_id	is_home_try_on	number_of_pairs	is_purchase
+4e8118dc	True	3	False
+291f1cca	True	5	False
+75122300	False	NULL	False
+
+
+Each row will represent a single user from the browse table:
+If the user has any entries in home_try_on, then is_home_try_on will be True.
+number_of_pairs comes from home_try_on table
+If the user has any entries in purchase, then is_purchase will be True.
+Use a LEFT JOIN to combine the three tables, starting with the top of the funnel (quiz) and ending with the bottom of the funnel 
+(purchase).
+
+Select only the first 10 rows from this table (otherwise, the query will run really slowly).
+
+select quiz.user_id,
+case when quiz.user_id = home_try_on.user_id then "True"
+else "False" end as is_home_try_on, home_try_on.number_of_pairs,
+case when home_try_on.user_id = purchase.user_id then "True"
+else "False" end is_purchase from quiz left join home_try_on on quiz.user_id = home_try_on.user_id left join purchase on home_try_on.user_id = purchase.user_id limit 10;
+
+---OR this query can be rewritten as like below:
+
+SELECT DISTINCT q.user_id,
+h.user_id IS NOT NULL AS 'is_home_try_on',
+h.number_of_pairs,
+p.user_id IS NOT NULL AS 'is_purchase'
+FROM quiz q
+LEFT JOIN home_try_on h
+ON q.user_id = h.user_id
+LEFT JOIN purchase p
+ON p.user_id = q.user_id
+LIMIT 10;
+
+
+6. Once we have the data in this format, we can analyze it in several ways:
+
+We can calculate overall conversion rates by aggregating across all rows.
+We can compare conversion from quiz→home_try_on and home_try_on→purchase.
+We can calculate the difference in purchase rates between customers who had 3 number_of_pairs with ones who had 5.
+And more!
+
+We can also use the original tables to calculate things like:
+The most common results of the style quiz.
+The most common types of purchase made.
+And more!
+
+What are some actionable insights for Warby Parker?
+
