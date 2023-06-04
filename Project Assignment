@@ -115,13 +115,30 @@ LIMIT 10;
 6. Once we have the data in this format, we can analyze it in several ways:
 
 We can calculate overall conversion rates by aggregating across all rows.
+
+WITH temp_tbl as (
+select *, count(response) as cntr 
+from Funnels_codecademy 
+group by question 
+ORDER by cntr DESC
+)
+SELECT *, round(100*CAST(cntr - lag(cntr) OVER(ORDER by cntr) as REAL)/CAST(lag(cntr) OVER(ORDER by cntr) as REAL), 2) || "%" 
+as per_diff from temp_tbl;
+
 We can compare conversion from quiz→home_try_on and home_try_on→purchase.
+
+
 We can calculate the difference in purchase rates between customers who had 3 number_of_pairs with ones who had 5.
+
+
+
 And more!
 
 We can also use the original tables to calculate things like:
 The most common results of the style quiz.
+
 The most common types of purchase made.
+
 And more!
 
 What are some actionable insights for Warby Parker?
